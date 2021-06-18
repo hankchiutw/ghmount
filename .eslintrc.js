@@ -5,7 +5,6 @@ yarn add -D\
   @typescript-eslint/parser\
   @typescript-eslint/eslint-plugin\
   eslint-plugin-import\
-  eslint-plugin-svelte3
 */
 module.exports = {
   root: true,
@@ -16,7 +15,7 @@ module.exports = {
     node: true,
     es6: true,
   },
-  plugins: ['@typescript-eslint', 'import', 'svelte3'],
+  plugins: ['@typescript-eslint', 'import'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -34,10 +33,6 @@ module.exports = {
         ],
       },
     },
-    {
-      files: ['*.svelte'],
-      processor: 'svelte3/svelte3',
-    },
   ],
   rules: {
     'comma-dangle': ['warn', 'always-multiline'],
@@ -49,8 +44,5 @@ module.exports = {
         alphabetize: { order: 'asc', caseInsensitive: true },
       },
     ],
-  },
-  settings: {
-    'svelte3/typescript': require('typescript'),
   },
 };
