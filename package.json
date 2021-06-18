@@ -23,6 +23,7 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^3",
+    "axios": "^0.21.1",
     "execa": "^5.0.0",
     "fuse-native": "^2.2.6",
     "inquirer": "^8.0.0",
