@@ -1,10 +1,11 @@
 import Fuse from 'fuse-native';
+import type { FuseOperations } from 'fuse-native';
 import type { ParamsContext } from '../../params';
 
 const MODE_FILE = 33188;
 const MODE_DIR = 16877;
 
-const ops = {
+const ops: FuseOperations = {
   readdir: function (path, cb) {
     console.log('readdir(%s)', path);
     if (path === '/') return process.nextTick(cb, 0, ['test', 'a']);
