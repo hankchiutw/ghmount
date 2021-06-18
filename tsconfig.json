@@ -12,7 +12,11 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "baseUrl": "./",
+    "paths": {
+      "@app/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }
