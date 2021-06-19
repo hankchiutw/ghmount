@@ -1,60 +1,23 @@
 import { ParamsContext } from '@app/params';
+import { fileNodeMap } from '@app/store';
 import Fuse from 'fuse-native';
 import type { FuseOperations } from 'fuse-native';
 import { injectable, inject } from 'inversify';
 import { Stage } from '../interfaces';
 
-const MODE_FILE = 33188;
-const MODE_DIR = 16877;
-
 const ops: FuseOperations = {
   readdir: function (path, cb) {
     console.log('readdir(%s)', path);
-    if (path === '/') return process.nextTick(cb, 0, ['test', 'a']);
-    if (path === '/a') return process.nextTick(cb, 0, ['a.txt']);
-    return process.nextTick(cb, 0);
+    return process.nextTick(cb, 0, fileNodeMap[path]?.children || []);
   },
-  /*
-  access: function (path, cb) {
-    return process.nextTick(cb, 0)
-  },
-   */
   getattr: function (path, cb) {
-    // console.log('getattr(%s)', path);
-    if (path === '/') {
-      return process.nextTick(cb, 0, {
-        size: 100,
-        mode: MODE_DIR,
-      });
+    console.log('getattr(%s)', path);
+    if (!fileNodeMap[path]) {
+      return process.nextTick(cb, Fuse.ENOENT);
     }
 
-    if (path === '/test') {
-      return process.nextTick(cb, 0, {
-        size: 12,
-        mode: MODE_DIR,
-      });
-    }
-
-    if (path === '/a') {
-      return process.nextTick(cb, 0, {
-        size: 12,
-        mode: MODE_DIR,
-      });
-    }
-
-    if (path === '/a/a.txt') {
-      return process.nextTick(cb, 0, {
-        size: 12,
-        mode: MODE_FILE,
-      });
-    }
-
-    return process.nextTick(cb, Fuse.ENOENT);
+    return process.nextTick(cb, 0, fileNodeMap[path].stat);
   },
-  // open: function (path, flags, cb) {
-  //   console.log('open(%s, %d)', path, flags);
-  //   return process.nextTick(cb, 0, 42); // 42 is an fd
-  // },
   read: function (path, fd, buf, len, pos, cb) {
     console.log('read(%s, %d, %d, %d)', path, fd, len, pos);
     const str = 'hello world\n'.slice(pos);
