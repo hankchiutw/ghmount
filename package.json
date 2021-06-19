@@ -10,6 +10,7 @@
     "test": "mocha",
     "build": "rm -rf lib && tsc -b && oclif-dev readme",
     "bump": "HUSKY=0 release-it --ci",
+    "dev": "./bin/run",
     "lint": "yarn lint:src",
     "lint:src": "tsc --noEmit && eslint './src/**/*.ts'",
     "lint:fix": "yarn lint:src --fix && pretty-quick --staged",
