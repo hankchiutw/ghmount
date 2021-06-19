@@ -1,2 +1,2 @@
-export * from './fetchFiles';
-export * from './fuseMount';
+export * from './fetch-files.stage';
+export * from './fuse-mount.stage';

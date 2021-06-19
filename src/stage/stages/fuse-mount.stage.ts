@@ -1,6 +1,8 @@
+import { ParamsContext } from '@app/params';
 import Fuse from 'fuse-native';
 import type { FuseOperations } from 'fuse-native';
-import type { ParamsContext } from '../../params';
+import { injectable, inject } from 'inversify';
+import { Stage } from '../interfaces';
 
 const MODE_FILE = 33188;
 const MODE_DIR = 16877;
@@ -62,21 +64,28 @@ const ops: FuseOperations = {
   },
 };
 
-export async function fuseMount(context: ParamsContext): Promise<void> {
-  const { mntPath } = context;
+@injectable()
+export class FuseMountStage implements Stage {
+  label = 'Mount';
 
-  const fuse = new Fuse(mntPath, ops, { debug: false, displayFolder: true });
-  fuse.mount((err) => {
-    if (err) throw err;
-    console.log('fuseMount: mounted:', fuse.mnt);
-  });
+  constructor(@inject(ParamsContext) private context: ParamsContext) {}
 
-  process.once('SIGINT', function () {
-    fuse.unmount((err) => {
-      if (err) {
-        throw err;
-      }
-      console.log('fuseMount: umounted', fuse.mnt);
+  async run(): Promise<void> {
+    const { mntPath } = this.context;
+
+    const fuse = new Fuse(mntPath, ops, { debug: false, displayFolder: true });
+    fuse.mount((err) => {
+      if (err) throw err;
+      console.log('fuseMount: mounted:', fuse.mnt);
     });
-  });
+
+    process.once('SIGINT', function () {
+      fuse.unmount((err) => {
+        if (err) {
+          throw err;
+        }
+        console.log('fuseMount: umounted', fuse.mnt);
+      });
+    });
+  }
 }

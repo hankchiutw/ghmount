@@ -1,40 +1,24 @@
 import { injectable, inject } from 'inversify';
-import { ParamsContext } from '../params';
 import type { Stage } from './interfaces';
-import { fetchFiles, fuseMount } from './stages';
+import { FetchFilesStage, FuseMountStage } from './stages';
 
 @injectable()
 export class StageRunner {
   beforeEach: (stage: Stage) => void = () => null;
   afterEach: (stage: Stage) => void = () => null;
 
-  private stages: Stage[] = [];
+  private stages: Stage[] = [this.fetchFilesStage, this.fuseMountStage];
 
-  constructor(@inject(ParamsContext) private context: ParamsContext) {
-    this.initStages();
-  }
+  constructor(
+    @inject(FetchFilesStage) private fetchFilesStage: FetchFilesStage,
+    @inject(FuseMountStage) private fuseMountStage: FuseMountStage,
+  ) {}
 
   async runAll(): Promise<void> {
     for (const stage of this.stages) {
-      const shouldRun = stage.shouldRun || (() => true);
       this.beforeEach(stage);
-      if (shouldRun(this.context)) {
-        await stage.callback(this.context);
-      }
+      await stage.run();
       this.afterEach(stage);
     }
-  }
-
-  private initStages() {
-    this.stages = [
-      {
-        label: 'Fetch file list',
-        callback: fetchFiles,
-      },
-      {
-        label: 'Mounting',
-        callback: fuseMount,
-      },
-    ];
   }
 }
