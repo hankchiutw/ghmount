@@ -11,7 +11,7 @@ import {
   paramArgs,
   paramFlags,
 } from './params';
-import { StageRunner, Stage } from './stage-runner';
+import { StageRunner, Stage } from './stage';
 
 @injectable()
 export class Ghmount extends Command {
