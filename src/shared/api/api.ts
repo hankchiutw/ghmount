@@ -1,4 +1,5 @@
 import { API_URL } from '@app/entities';
+import { Octokit } from '@octokit/core';
 import axios from 'axios';
 import { injectable, inject } from 'inversify';
 import type { ResourcePath } from './request-path';
@@ -15,6 +16,8 @@ interface ApiOptions extends RequestOptions {
 
 @injectable()
 export class Api {
+  public octokit = new Octokit();
+
   constructor(@inject(API_URL) private apiUrl: string) {}
 
   public post<T>(
