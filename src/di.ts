@@ -6,7 +6,7 @@ import { ParamsContext } from './params';
 import { Api } from './shared/api';
 import { StageRunner } from './stage-runner';
 
-const diContainer = new Container();
+const diContainer = new Container({ defaultScope: 'Singleton' });
 diContainer.bind<ParamsContext>(ParamsContext).toSelf();
 diContainer.bind<StageRunner>(StageRunner).toSelf();
 diContainer.bind<string>(API_URL).toConstantValue(DEFAULT_API_URL);
