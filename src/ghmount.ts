@@ -1,5 +1,7 @@
+import { injectProp } from '@app/di';
 import { Command, flags } from '@oclif/command';
 import * as inquirer from 'inquirer';
+import { injectable } from 'inversify';
 import { bold, underline } from 'kleur';
 import ora from 'ora';
 import {
@@ -11,6 +13,7 @@ import {
 } from './params';
 import { StageRunner, Stage } from './stage-runner';
 
+@injectable()
 export class Ghmount extends Command {
   static description = 'Mount github repo in filesystem';
 
@@ -22,9 +25,12 @@ export class Ghmount extends Command {
 
   static args = [...paramArgs];
 
-  // TODO: better way to inject {@link ParamsContext}
-  context: ParamsContext = new ParamsContext();
-  stageRunner: StageRunner = new StageRunner(this.context);
+  @injectProp(ParamsContext)
+  private context!: ParamsContext;
+
+  @injectProp(StageRunner)
+  private stageRunner!: StageRunner;
+
   spinner = ora({ indent: 2 });
 
   async run(): Promise<void> {
@@ -50,10 +56,7 @@ export class Ghmount extends Command {
    */
   async getParams(): Promise<Params> {
     const {
-      args: {
-        repoPath,
-        mntPath,
-      },
+      args: { repoPath, mntPath },
     } = this.parse(Ghmount);
 
     const params: Params = {

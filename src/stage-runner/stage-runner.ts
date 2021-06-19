@@ -1,17 +1,16 @@
-import type { ParamsContext } from '../params';
+import { injectable, inject } from 'inversify';
+import { ParamsContext } from '../params';
 import type { Stage } from './interfaces';
-import {
-  fetchFiles,
-  fuseMount,
-} from './stages';
+import { fetchFiles, fuseMount } from './stages';
 
+@injectable()
 export class StageRunner {
   beforeEach: (stage: Stage) => void = () => null;
   afterEach: (stage: Stage) => void = () => null;
 
   private stages: Stage[] = [];
 
-  constructor(private context: ParamsContext) {
+  constructor(@inject(ParamsContext) private context: ParamsContext) {
     this.initStages();
   }
 
