@@ -1,6 +1,11 @@
 declare module 'fuse-native' {
   type NextCallback = (code: number, ...args: any[]) => void;
   type OperationSimpleCallback = (path: string, cb: NextCallback) => void;
+  type OperationOpenCallback = (
+    path: string,
+    flags: number,
+    cb: NextCallback,
+  ) => void;
   type OperationReadCallback = (
     path: string,
     fd: number,
@@ -15,6 +20,7 @@ declare module 'fuse-native' {
   export interface FuseOperations {
     readdir?: OperationSimpleCallback;
     getattr?: OperationSimpleCallback;
+    open?: OperationOpenCallback;
     read?: OperationReadCallback;
   }
 

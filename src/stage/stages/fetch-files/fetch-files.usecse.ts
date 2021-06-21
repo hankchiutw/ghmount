@@ -32,7 +32,7 @@ export class FetchFilesUsecase {
 }
 
 function toFileNode(raw: FileNodeRaw): FileNode {
-  const { path, type, size, url } = raw;
+  const { path, type, size, url, sha } = raw;
   return {
     path: `/${path}`,
     children: [],
@@ -40,6 +40,8 @@ function toFileNode(raw: FileNodeRaw): FileNode {
       size: size || 0,
       mode: type === 'blob' ? FileNodeMode.FILE : FileNodeMode.DIR,
     },
+    sha,
+    content: null,
     url: url || '',
   };
 }

@@ -8,6 +8,8 @@ export const fileNodeMap: Record<string, FileNode> = {
       size: 0,
       mode: FileNodeMode.DIR,
     },
+    sha: '',
+    content: null,
     url: '',
   },
 };

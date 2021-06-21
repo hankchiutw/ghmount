@@ -5,6 +5,8 @@ export interface FileNode {
     mode: FileNodeMode;
     size: number;
   };
+  sha: string;
+  content: Buffer | null;
   url: string;
 }
 
