@@ -56,6 +56,7 @@ export class FuseMountStage implements Stage {
     const fuse = new Fuse(mntPath, this.ops, {
       debug: false,
       displayFolder: true,
+      mkdir: true,
     });
     fuse.mount((err) => {
       if (err) throw err;

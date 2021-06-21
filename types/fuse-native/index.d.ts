@@ -27,6 +27,8 @@ declare module 'fuse-native' {
   interface FuseOptions {
     debug?: boolean;
     displayFolder?: boolean;
+    mkdir?: boolean;
+    force?: boolean;
   }
 
   class Fuse {
