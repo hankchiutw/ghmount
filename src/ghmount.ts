@@ -44,6 +44,7 @@ export class Ghmount extends Command {
     this.log('');
     this.log(bold(underline('Quickstart')));
     this.log('');
+    this.log(`  Browse ${this.context.mntPath}`);
   }
 
   async initContext(): Promise<void> {

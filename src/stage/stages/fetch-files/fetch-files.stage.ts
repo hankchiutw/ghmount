@@ -1,4 +1,3 @@
-import { ParamsContext } from '@app/params';
 import { fileNodeMap } from '@app/store';
 import { injectable, inject } from 'inversify';
 import { Stage } from '../../interfaces';
@@ -8,13 +7,9 @@ import { FetchFilesUsecase } from './fetch-files.usecse';
 export class FetchFilesStage implements Stage {
   label = 'Fetch file list';
 
-  constructor(
-    @inject(ParamsContext) private context: ParamsContext,
-    @inject(FetchFilesUsecase) private usecase: FetchFilesUsecase,
-  ) {}
+  constructor(@inject(FetchFilesUsecase) private usecase: FetchFilesUsecase) {}
 
   async run(): Promise<void> {
-    console.log('xxx: FetchFilesStage', this.context.repoPath);
     const fileNodes = await this.usecase.fetchRepo();
 
     fileNodes.forEach((node) => {
