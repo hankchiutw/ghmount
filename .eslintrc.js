@@ -31,6 +31,7 @@ module.exports = {
           'warn',
           { argsIgnorePattern: '^_' },
         ],
+        '@typescript-eslint/no-var-requires': 'off',
       },
     },
   ],
