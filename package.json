@@ -8,8 +8,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "build": "rm -rf lib && yarn esbuild ./src/*.ts ./src/**/*.ts --outdir=lib --platform=node --format=cjs",
-    "postbuild": "tsc --emitDeclarationOnly --outDir lib",
+    "build": "rm -rf lib && ./scripts/build.js",
+    "build:types": "tsc --emitDeclarationOnly --outDir lib",
     "bump": "HUSKY=0 release-it --ci",
     "dev": "./bin/run",
     "lint": "yarn lint:src",
@@ -19,9 +19,6 @@
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
-  },
-  "_moduleAliases": {
-    "@app": "./lib"
   },
   "bugs": "https://github.com/hankchiutw/ghmount/issues",
   "dependencies": {
@@ -66,6 +63,7 @@
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0",
     "release-it": "^14.4.1",
+    "tiny-glob": "^0.2.9",
     "ts-node": "^8",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.3"

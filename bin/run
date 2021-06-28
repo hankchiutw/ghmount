@@ -5,6 +5,12 @@ const path = require('path');
 const project = path.join(__dirname, '../tsconfig.json');
 const dev = fs.existsSync(project);
 
+const moduleAlias = require('module-alias');
+moduleAlias.addAlias(
+  '@app',
+  path.resolve(__dirname, '..', dev ? 'src' : 'lib'),
+);
+
 if (dev) {
   require('tsconfig-paths').register();
   require('ts-node').register({ project });
